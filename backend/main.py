@@ -231,10 +231,17 @@ async def grade_documents_node(state):
     question = state["question"]
     documents = state["documents"]
     
+    # Stream grading start
+    if current_websocket:
+        await current_websocket.send_json({
+            "type": "status",
+            "data": f"🔍 Grading {len(documents)} documents for staleness..."
+        })
+    
     filtered_docs = []
     stale_count = 0
     web_search = "No"
-    for d in documents:
+    for idx, d in enumerate(documents, 1):
         # Await the async grader
         score = await retrieval_grader.ainvoke({"question": question, "document": d.page_content})
         grade = score.binary_score
@@ -242,10 +249,20 @@ async def grade_documents_node(state):
         if grade == "CORRECT":
             print("---GRADE: CORRECT---")
             filtered_docs.append(d)
+            if current_websocket:
+                await current_websocket.send_json({
+                    "type": "status",
+                    "data": f"✅ Document {idx}/{len(documents)}: Up-to-date"
+                })
         else:
             print(f"---GRADE: STALE (Source: {d.metadata.get('source', 'N/A')})---")
             stale_count += 1
             web_search = "Yes" # Trigger web search
+            if current_websocket:
+                await current_websocket.send_json({
+                    "type": "status",
+                    "data": f"⚠️ Document {idx}/{len(documents)}: Stale (outdated)"
+                })
     
     # Stream grading summary
     if current_websocket:
