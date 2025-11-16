@@ -2,18 +2,18 @@
 
 <div align="center">
 
-![Aegis AI Banner](https://img.shields.io/badge/Aegis_AI-Deprecation_Detection_Agent-ef4444?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0ZGQ0EyOCIgZD0iTTEyIDFMMyA1djZjMCA1LjU1IDMuODQgMTAuNzQgOSAxMiA1LjE2LTEuMjYgOS02LjQ1IDktMTJWNWwtOS00eiIvPjwvc3ZnPg==)
+![Aegis AI Banner](https://img.shields.io/badge/Aegis_AI_Deprecation_Detection_Agent-ef4444?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0ZGQ0EyOCIgZD0iTTEyIDFMMyA1djZjMCA1LjU1IDMuODQgMTAuNzQgOSAxMiA1LjE2LTEuMjYgOS02LjQ1IDktMTJWNWwtOS00eiIvPjwvc3ZnPg==)
 
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com)
-[![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=flat-square&logo=react)](https://react.dev)
-[![LangChain](https://img.shields.io/badge/🦜_LangChain-0.3+-1C3C3C?style=flat-square)](https://langchain.com)
-[![LangGraph](https://img.shields.io/badge/LangGraph-0.2+-FF4154?style=flat-square&logo=langgraph)](https://langchain-ai.github.io/langgraph/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3+-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
+[![Python](https://img.shields.io/badge/Python_3.11+-3776AB?style=for-the-badge&logo=python)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI_0.104+-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React_18.3.1-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
+[![LangChain](https://img.shields.io/badge/🦜_LangChain_0.3+-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)](https://langchain.com)
+[![LangGraph](https://img.shields.io/badge/LangGraph_0.2+-FF4154?style=for-the-badge&logo=langgraph)](https://langchain-ai.github.io/langgraph/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_3.3+-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
 
-[![License](https://img.shields.io/badge/License-MIT-FFCA28?style=flat-square&logo=opensourceinitiative)](LICENSE)
-[![WebSocket](https://img.shields.io/badge/WebSocket-Real--time-010101?style=flat-square&logo=socket.io)]()
-[![Gemini](https://img.shields.io/badge/Google_Gemini-.5_Pro-4285F4?style=flat-square&logo=googlegemini)](https://ai.google.dev)
+[![License](https://img.shields.io/badge/License_MIT-FFCA28?style=for-the-badge&logo=opensourceinitiative)](LICENSE)
+[![WebSocket](https://img.shields.io/badge/WebSocket_Real--time-010101?style=for-the-badge&logo=socket.io)]()
+[![Gemini](https://img.shields.io/badge/Google_Gemini_.5_Pro-4285F4?style=for-the-badge&logo=googlegemini)](https://ai.google.dev)
 
 **An AI agent that detects and prevents deprecated code before it ships to production**
 
