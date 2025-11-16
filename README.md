@@ -4,17 +4,16 @@
 
 ![Aegis AI Banner](https://img.shields.io/badge/Aegis_AI-Deprecation_Detection_Agent-ef4444?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDFMMyA1djZjMCA1LjU1IDMuODQgMTAuNzQgOSAxMiA1LjE2LTEuMjYgOS02LjQ1IDktMTJWNWwtOS00eiIvPjwvc3ZnPg==)
 
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=FFD43B)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=flat-square&logo=react&logoColor=20232A)](https://react.dev)
-[![LangChain](https://img.shields.io/badge/🦜_LangChain-0.3+-1C3C3C?style=flat-square&logoColor=white)](https://langchain.com)
-[![LangGraph](https://img.shields.io/badge/LangGraph-0.2+-FF4154?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6TTEyIDIwYy00LjQxIDAtOC0zLjU5LTgtOHMzLjU5LTggOC04IDggMy41OSA4IDgtMy41OSA4LTggOHoiLz48L3N2Zz4=&logoColor=white)](https://langchain-ai.github.io/langgraph/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3+-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=plastic&logo=python&logoColor=FFD43B)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688?style=plastic&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=plastic&logo=react&logoColor=20232A)](https://react.dev)
+[![LangChain](https://img.shields.io/badge/🦜_LangChain-0.3+-00D26A?style=plastic&logoColor=white)](https://langchain.com)
+[![LangGraph](https://img.shields.io/badge/LangGraph-0.2+-FF4154?style=plastic&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6TTEyIDIwYy00LjQxIDAtOC0zLjU5LTgtOHMzLjU5LTggOC04IDggMy41OSA4IDgtMy41OSA4LTggOHoiLz48L3N2Zz4=&logoColor=white)](https://langchain-ai.github.io/langgraph/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3+-06B6D4?style=plastic&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
-[![License](https://img.shields.io/badge/License-MIT-FFCA28?style=flat-square&logo=opensourceinitiative&logoColor=black)](LICENSE)
-[![WebSocket](https://img.shields.io/badge/WebSocket-Real--time-010101?style=flat-square&logo=socket.io&logoColor=white)]()
-[![Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Pro-4285F4?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev)
-
+[![License](https://img.shields.io/badge/License-MIT-FFC107?style=plastic&logo=opensourceinitiative&logoColor=black)](LICENSE)
+[![WebSocket](https://img.shields.io/badge/WebSocket-Real--time-010101?style=plastic&logo=socket.io&logoColor=white)]()
+[![Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Pro-4285F4?style=plastic&logo=google&logoColor=white)](https://ai.google.dev)
 
 **An AI agent that detects and prevents deprecated code before it ships to production**
 
