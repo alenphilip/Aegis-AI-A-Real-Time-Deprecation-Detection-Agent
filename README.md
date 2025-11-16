@@ -661,44 +661,19 @@ CMD ["python", "main.py"]
 
 ---
 
-## 🗺️ Roadmap
-
-### 🎯 Current (v1.0)
-- ✅ CRAG workflow with LangGraph
-- ✅ Dual-theme UI with persistence
-- ✅ Real-time WebSocket streaming
-- ✅ Web search integration
-- ✅ Chat history persistence
-
-### 🚧 Coming Soon (v1.1)
-- ⏳ Multi-agent system (Research + Code + Review agents)
-- ⏳ Code snippet generation with syntax highlighting
-- ⏳ Document comparison tool
-- ⏳ Export chat to markdown
-- ⏳ Voice input support
-
-### 🔮 Future (v2.0)
-- 🔮 Plugin system for custom data sources
-- 🔮 Team collaboration features
-- 🔮 Analytics dashboard
-- 🔮 Mobile app (React Native)
-- 🔮 IDE extensions (VS Code, JetBrains)
-
----
-
 ## 🤝 Contributing
 
 We welcome contributions! Here's how you can help:
 
 ### 🐛 Bug Reports
-Found a bug? [Open an issue](https://github.com/yourusername/aegis-ai/issues) with:
+Found a bug? [Open an issue](https://github.com/alenphilip/Aegis-AI-A-Real-Time-Deprecation-Detection-Agent/issues) with:
 - Description of the bug
 - Steps to reproduce
 - Expected vs actual behavior
 - Screenshots (if applicable)
 
 ### 💡 Feature Requests
-Have an idea? [Submit a feature request](https://github.com/yourusername/aegis-ai/issues) with:
+Have an idea? [Submit a feature request](https://github.com/alenphilip/Aegis-AI-A-Real-Time-Deprecation-Detection-Agent/issues) with:
 - Use case description
 - Proposed solution
 - Alternative approaches considered
