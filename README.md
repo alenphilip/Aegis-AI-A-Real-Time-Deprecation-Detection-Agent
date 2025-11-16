@@ -11,16 +11,15 @@
 [![React](https://img.shields.io/badge/React_18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_3.3+-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
-[![License](https://img.shields.io/badge/License_MIT-FFCA28?style=for-the-badge&logo=opensourceinitiative&logoColor=black)](LICENSE)
-[![WebSocket](https://img.shields.io/badge/WebSocket_Real--time-010101?style=for-the-badge&logo=socket.io&logoColor=white)]()
-[![Gemini](https://img.shields.io/badge/Google_Gemini_.5_Pro-4285F4?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev)
-
-**An AI agent that detects and prevents deprecated code before it ships to production**
-
+**An AI agent that detects and prevents deprecated code before it ships to production**  
 *Solving the $2.85B problem of outdated documentation with self-correcting CRAG technology*
 
-[🚀 Demo](#-demo) • [💡 Features](#-features) • [🏗️ Architecture](#️-architecture) • [⚡ Quick Start](#-quick-start) • [📚 Documentation](#-documentation)
+### [🚀 Demo](#-demo) • [💡 Features](#-features) • [🏗️ Architecture](#️-architecture) • [⚡ Quick Start](#-quick-start) • [📚 Documentation](#-documentation)
 
+
+[![License](https://img.shields.io/badge/License_MIT-FFCA28?style=plastic&logo=opensourceinitiative&logoColor=black)](LICENSE)
+[![WebSocket](https://img.shields.io/badge/WebSocket_Real--time-010101?style=plastic&logo=socket.io&logoColor=white)]()
+[![Gemini](https://img.shields.io/badge/Google_Gemini_.5_Pro-4285F4?style=plastic&logo=googlegemini&logoColor=white)](https://ai.google.dev)
 </div>
 
 ---
