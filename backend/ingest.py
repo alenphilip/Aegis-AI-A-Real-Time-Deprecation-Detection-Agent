@@ -1,0 +1,456 @@
+# ingest.py
+import os
+import time
+from dotenv import load_dotenv
+from langchain_community.document_loaders import RecursiveUrlLoader,WebBaseLoader
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_chroma import Chroma
+from bs4 import BeautifulSoup
+
+load_dotenv()
+
+# --- 1. Configuration ---
+if "GOOGLE_API_KEY" not in os.environ:
+    print("GOOGLE_API_KEY not set. Please set it.")
+    exit()
+
+CHROMA_PATH = "./aegis_db"
+COLLECTION_NAME = "ai_docs_stale"
+
+# --- 2. The "Stale" Documentation URLs ---
+
+# Use RecursiveUrlLoader for entire archived sites
+RECURSIVE_URLS = [
+    "https://docs.pydantic.dev/1.10/"
+]
+
+STALE_ARTICLES_URLS = [
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/llm_chain",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/chatbot/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/retrievers/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/agents/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/rag/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/qa_chat_history/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/sql_qa/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/query_analysis/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/local_rag/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/graph/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/pdf_qa/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/extraction/",
+    "http://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/data_generation/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/classification/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/tutorials/summarization/",
+    "https://web.archive.org/web/20241110081726/https://python.langchain.com/docs/how_to/installation/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/pydantic_compatibility/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/structured_output/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_calling/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/streaming/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/debugging/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/few_shot_examples/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/few_shot_examples_chat/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/prompts_partial/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/prompts_composition/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/example_selectors/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/example_selectors_length_based/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/example_selectors_similarity/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/example_selectors_ngram/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/example_selectors_mmr/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/example_selectors_langsmith/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_calling/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/structured_output/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/chat_model_caching/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/logprobs/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/custom_chat_model/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/chat_streaming/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/chat_token_usage_tracking/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/response_metadata/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_calling/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_streaming/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/chat_model_rate_limiting/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tools_few_shot/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tools_model_specific/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_choice/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/local_llms/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/chat_models_universal_init/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/trim_messages/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/filter_messages/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/merge_message_runs/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/llm_caching/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/custom_llm/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/streaming_llm/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/llm_token_usage_tracking/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/local_llms/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/output_parser_structured/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/output_parser_json/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/output_parser_xml/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/output_parser_yaml/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/output_parser_retry/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/output_parser_fixing/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/output_parser_custom/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/document_loader_pdf/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/document_loader_web/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/document_loader_csv/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/document_loader_csv/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/document_loader_directory/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/document_loader_html/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/document_loader_json/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/document_loader_markdown/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/document_loader_custom/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/recursive_text_splitter/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/HTML_header_metadata_splitter/"
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/HTML_section_aware_splitter/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/character_text_splitter/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/code_splitter/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/markdown_header_metadata_splitter/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/recursive_json_splitter/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/semantic-chunker/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/split_by_token/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/embed_text/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/caching_embeddings/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/vectorstores/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/vectorstore_retriever/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/MultiQueryRetriever/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/contextual_compression/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/custom_retriever/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/add_scores_retriever/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/ensemble_retriever/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/long_context_reorder/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/multi_vector/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/parent_document_retriever/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/self_query/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/time_weighted_vectorstore/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/hybrid/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/indexing/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/custom_tools/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tools_builtin/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tools_builtin/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_calling/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_results_pass_to_model/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_runtime/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tools_human/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tools_error/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tools_error/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_choice/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_calling_parallel/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_configure/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_stream_events/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tool_artifacts/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/convert_runnable_to_tool/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/tools_prompting/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/runnable_runtime_secrets/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/multimodal_inputs/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/multimodal_prompts/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/agent_executor/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/migrate_agent/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/callbacks_runtime/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/callbacks_attach/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/callbacks_constructor/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/custom_callbacks/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/callbacks_async/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/callbacks_custom_events/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/custom_chat_model/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/custom_llm/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/custom_retriever/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/document_loader_custom/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/output_parser_custom/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/custom_callbacks/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/custom_tools/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/callbacks_custom_events/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/serialization/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/extraction_examples/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/extraction_long_text/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/extraction_parse/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/chatbots_memory/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/chatbots_retrieval/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/chatbots_retrieval/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/chatbots_tools/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/how_to/trim_messages/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/why_langchain/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/architecture/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/chat_models/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/chat_history/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/messages/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/tools/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/tool_calling/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/structured_outputs/",
+    "https://web.archive.org/web/20241106034607/https://langchain-ai.github.io/langgraph/concepts/memory/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/multimodality/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/runnables/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/lcel/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/document_loaders/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/retrieval/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/text_splitters/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/embedding_models/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/vectorstores/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/retrievers/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/rag/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/agents/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/prompt_templates/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/output_parsers/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/few_shot_prompting/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/example_selectors/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/async/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/callbacks/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/tracing/",
+    "https://web.archive.org/web/20241110081726mp_/https://python.langchain.com/docs/concepts/evaluation/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/branching/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/map-reduce/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/recursion-limit/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/persistence/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/subgraph-persistence/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/cross-thread-persistence/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/persistence_postgres/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/persistence_mongodb/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/persistence_redis/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/memory/manage-conversation-history/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/memory/delete-messages/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/memory/add-summary-conversation-history/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/human_in_the_loop/breakpoints/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/human_in_the_loop/dynamic_breakpoints/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/human_in_the_loop/edit-graph-state/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/human_in_the_loop/wait-user-input/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/human_in_the_loop/time-travel/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/human_in_the_loop/review-tool-calls/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/stream-values/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/stream-updates/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/streaming-tokens/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/streaming-tokens-without-langchain/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/streaming-content/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/stream-multiple/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/streaming-events-from-within-tools/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/streaming-events-from-within-tools-without-langchain/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/streaming-from-final-node/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/streaming-subgraphs/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/disable-streaming/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/tool-calling/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/tool-calling-errors/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/pass-run-time-values-to-tools/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/pass-config-to-tools/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/many-tools/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/subgraph/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/subgraphs-manage-state/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/subgraph-transform-state/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/state-model/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/input_output_schema/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/pass_private_state/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/async/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/visualization/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/configuration/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/node-retries/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/react-agent-structured-output/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/run-id-langsmith/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/return-when-recursion-limit-hits/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/create-react-agent/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/create-react-agent-memory/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/create-react-agent-system-prompt/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/create-react-agent-hitl/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/react-agent-from-scratch/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/stream_values/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/stream_updates/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/stream_messages/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/stream_events/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/stream_debug/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/stream_multiple/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/human_in_the_loop_breakpoint/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/human_in_the_loop_user_input/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/human_in_the_loop_edit_state/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/human_in_the_loop_time_travel/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/human_in_the_loop_review_tool_calls/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/interrupt_concurrent/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/rollback_concurrent/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/reject_concurrent/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/enqueue_concurrent/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/background_run/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/same-thread/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/cron_jobs/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/how-tos/stateless_runs/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/cloud/deployment/cloud/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/deploy-self-hosted/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/use-remote-graph/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/high_level/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/low_level/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/multi_agent/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/persistence/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/memory/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/streaming/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/langgraph_platform/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/deployment_options/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/langgraph_server/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/langgraph_studio/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/langgraph_cli/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/sdk/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/how-tos/use-remote-graph/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/application_structure/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/assistants/",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/langgraph_server/#webhooks",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/langgraph_server/#cron-jobs",
+    "https://web.archive.org/web/20241111205839/https://langchain-ai.github.io/langgraph/concepts/double_texting/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/python-types/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/async/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/first-steps/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/path-params/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/query-params/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/body/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/query-params-str-validations/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/body-multiple-params/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/body-fields/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/body-nested-models/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/schema-extra-example/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/extra-data-types/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/cookie-params/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/header-params/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/response-model/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/extra-models/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/response-status-code/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/request-forms/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/request-files/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/request-forms-and-files/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/handling-errors/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/path-operation-configuration/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/encoder/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/body-updates/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/dependencies/classes-as-dependencies/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/dependencies/sub-dependencies/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-in-path-operation-decorators/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/dependencies/global-dependencies/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-with-yield/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/security/get-current-user/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/security/simple-oauth2/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/middleware/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/cors/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/sql-databases/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/bigger-applications/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/background-tasks/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/metadata/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/static-files/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/testing/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/tutorial/debugging/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/path-operation-advanced-configuration/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/additional-status-codes/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/response-directly/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/custom-response/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/additional-responses/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/response-cookies/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/response-headers/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/response-change-status-code/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/advanced-dependencies/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/security/http-basic-auth/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/using-request-directly/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/dataclasses/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/middleware/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/sub-applications/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/behind-a-proxy/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/templates/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/websockets/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/events/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/testing-websockets/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/testing-events/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/testing-dependencies/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/testing-database/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/async-tests/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/settings/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/openapi-callbacks/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/openapi-webhooks/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/wsgi/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/advanced/generate-clients/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/deployment/manually/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/deployment/versions/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/deployment/https/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/deployment/concepts/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/deployment/cloud/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/deployment/server-workers/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/deployment/docker/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/general/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/graphql/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/custom-request-and-route/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/conditional-openapi/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/extending-openapi/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/separate-openapi-schemas/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/custom-docs-ui-assets/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/sql-databases-peewee/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/configure-swagger-ui/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/async-sql-encode-databases/",
+    "https://web.archive.org/web/20240324145132/https://fastapi.tiangolo.com/how-to/nosql-databases-couchbase/",
+ ]
+
+print("--- STARTING INGESTION ---")
+
+# --- 3. Loading ---
+all_docs = []
+
+# Load recursive "stale" docs
+if RECURSIVE_URLS:
+    for url in RECURSIVE_URLS:
+        print(f"Recursively crawling {url} (max_depth=3)...")
+        try:
+            loader = RecursiveUrlLoader(
+                url=url,
+                max_depth=3,
+                prevent_outside=True,
+                use_async=True,
+                timeout=30,
+                exclude_dirs=["https://docs.pydantic.dev/latest/","https://docs.pydantic.dev/mypy_plugin/","https://docs.pydantic.dev/hypothesis_plugin/","https://docs.pydantic.dev/blog/","https://docs.pydantic.dev/usage/"],
+                extractor=lambda x: BeautifulSoup(x, "html.parser").text,
+                continue_on_failure=True,
+            )
+            docs = loader.load()
+            print(f"  ...loaded {len(docs)} documents from {url}.")
+
+            scraped_urls = set(doc.metadata['source'] for doc in docs)
+            print(f"  --- Found {len(scraped_urls)} unique pages: ---")
+            for i, scraped_url in enumerate(scraped_urls):
+                print(f"    {i+1}: {scraped_url}")
+
+            all_docs.extend(docs)
+        except Exception as e:
+            print(f"  ...ERROR crawling {url}: {e}. Skipping.")
+
+if STALE_ARTICLES_URLS:
+    for url in STALE_ARTICLES_URLS:
+        print(f"  Scraping: {url}")
+        try:
+            # Load one at a time to be gentle
+            loader = WebBaseLoader(
+                web_path=url, 
+                requests_kwargs={"timeout": 15},
+                bs_get_text_kwargs={"separator": " ", "strip": True},
+                # Tell the loader to not crash the whole script on one bad link
+                continue_on_failure=True 
+            ) 
+            docs = loader.load()
+            all_docs.extend(docs)
+            time.sleep(2) 
+        except Exception as e:
+            print(f"    ...ERROR loading {url}: {e}. Skipping.")
+    
+    print(f"    ...loaded {len(all_docs)} document(s).")    
+# --- 4. Splitting ---
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+doc_splits = text_splitter.split_documents(all_docs)
+print(f"Total chunks created: {len(doc_splits)}")
+
+# --- 5. Embedding and Storing ---
+print("Initializing ChromaDB and embedding model...")
+embedding_function = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
+
+print(f"Adding {len(doc_splits)} chunks to ChromaDB...")
+vectorstore = Chroma.from_documents(
+    documents=doc_splits,
+    embedding=embedding_function,
+    collection_name=COLLECTION_NAME,
+    persist_directory=CHROMA_PATH
+)
+
+print(f"\nSuccessfully added all documents")
+
+print("\n✅ INGESTION COMPLETE.")
+print(f"Database located at: {CHROMA_PATH}")
+print(f"Total documents in database: {len(doc_splits)}")

@@ -1,0 +1,3 @@
+backend/.env
+backend/aegis_db
+frontend/node_modules

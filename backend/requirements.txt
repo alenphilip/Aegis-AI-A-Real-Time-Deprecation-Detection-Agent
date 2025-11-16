@@ -1,0 +1,17 @@
+# requirements.txt
+fastapi
+uvicorn
+websockets
+langgraph
+langchain
+langchain-community
+langchain-google-genai
+langchain-chroma
+langchain-text-splitters
+chromadb
+tavily-python
+beautifulsoup4
+pydantic
+lxml
+python-dotenv
+langchain-tavily
