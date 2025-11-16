@@ -1,4 +1,4 @@
-# 🛡️ Aegis AI - Deprecation Detection Agent Powered by CRAG
+# 🛡️ Aegis AI - Multi-Agent Deprecation Detection System Powered by CRAG
 
 <div align="center">
 
@@ -11,8 +11,11 @@
 [![React](https://img.shields.io/badge/React_18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_3.3+-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
-**An AI agent that detects and prevents deprecated code before it ships to production**  
-*Solving the $2.85B problem of outdated documentation with self-correcting CRAG technology*
+**A multi-agent AI system that detects and prevents deprecated code before it ships to production**  
+*Solving the $2.85B problem of outdated documentation with 5 specialized AI agents powered by CRAG technology*
+
+### 🎯 **Targeting Stale Documentation**
+LangChain • Pydantic 1.10 • LangGraph • FastAPI
 
 ### [🚀 Demo](#-demo) • [💡 Features](#-features) • [🏗️ Architecture](#️-architecture) • [⚡ Quick Start](#-quick-start) • [📚 Documentation](#-documentation)
 
@@ -40,6 +43,12 @@
 - 💰 Companies lose **$2.85 billion annually** from deprecated code in production
 - 🔥 **80% of critical bugs** stem from using outdated API patterns
 
+**Real-world examples of stale documentation:**
+- 📚 **Pydantic 1.10** → Pydantic V2 migration breaking changes
+- 🦜 **LangChain** → Rapid API evolution with deprecated patterns
+- 📊 **LangGraph** → Evolving multi-agent orchestration patterns
+- ⚡ **FastAPI** → Breaking changes in async patterns and dependencies
+
 Traditional solutions fail because:
 - ❌ Manual documentation updates can't keep pace with rapid releases
 - ❌ Generic AI chatbots hallucinate outdated or incorrect information
@@ -50,32 +59,146 @@ Traditional solutions fail because:
 
 ## 💡 The Solution: Aegis AI
 
-**Aegis AI** is a **deprecation detection agent** powered by **Corrective Retrieval-Augmented Generation (CRAG)** that actively identifies outdated documentation and prevents developers from using deprecated APIs, patterns, and methods.
+**Aegis AI** is a **multi-agent deprecation detection system** powered by **Corrective Retrieval-Augmented Generation (CRAG)** that orchestrates **5 specialized AI agents** to identify outdated documentation and prevent developers from using deprecated APIs, patterns, and methods.
 
-### 🎪 What Makes Aegis a Deprecation Detection Agent?
+### 🤖 Multi-Agent Architecture
+
+Aegis AI coordinates **5 specialized AI agents** working in harmony:
 
 <table>
 <tr>
 <td width="50%">
 
-#### 🧠 **Deprecation Detection Layer**
-- **Automated relevance grading** detects stale documentation
-- **Web search fallback** finds current API patterns
-- **Real-time verification** against latest releases
-- **Context transformation** to catch deprecated methods
+#### 🔍 **Agent 1: Retrieval Agent**
+- **Vector similarity search** in ChromaDB
+- Searches ingested documentation (LangChain, Pydantic 1.10, LangGraph, FastAPI)
+- Returns top-k relevant documents
+- **Technology**: ChromaDB embeddings
+
+#### ⚖️ **Agent 2: Grading Agent**
+- **Relevance assessment** using Gemini 2.5 Flash
+- Binary scoring (relevant/not relevant)
+- Detects stale or outdated content
+- **Technology**: Google Gemini 2.5 Flash
+
+#### 🔄 **Agent 3: Transformation Agent**
+- **Query optimization** for web search
+- Rewrites questions for better results
+- Semantic improvement
+- **Technology**: Query rewriting with LLM
 
 </td>
 <td width="50%">
 
-#### ⚡ **User Experience**
-- **Dual theme UI** (dark/light mode)
-- **Real-time streaming** responses
-- **Persistent chat history** across sessions
-- **Web search results** with source links
+#### 🌐 **Agent 4: Search Agent**
+- **Real-time web search** via Tavily API
+- Finds current documentation and patterns
+- Fetches latest API changes
+- **Technology**: Tavily Search API
+
+#### ✨ **Agent 5: Generation Agent**
+- **Response synthesis** using Gemini 2.5 Pro
+- Combines retrieved docs + web results
+- Streams answers in real-time
+- **Technology**: Google Gemini 2.5 Pro
+
+#### 🎯 **Orchestration**
+- **LangGraph StateGraph** coordinates all agents
+- Conditional routing based on relevance
+- Self-correcting workflow
+- **Technology**: LangGraph multi-agent orchestration
 
 </td>
 </tr>
 </table>
+
+### 🎪 What Makes Aegis Unique?
+
+Unlike generic AI chatbots or simple RAG systems, Aegis AI solves the **specific problem of stale documentation** through unique innovations:
+
+<table>
+<tr>
+<td width="50%">
+
+#### 🎯 **1. Proactive Staleness Detection**
+**The Problem:** ChatGPT/Claude don't know when docs are outdated  
+**Aegis Solution:**
+- ✅ **Binary relevance grading** using Gemini 2.5 Flash
+- ✅ Scores each retrieved document (relevant/not relevant)
+- ✅ **Detects deprecation signals** (old API patterns, outdated syntax)
+- ✅ Triggers web search when local docs are stale
+
+**Why it matters:** Prevents hallucination from outdated training data
+
+#### 🔄 **2. Self-Correcting CRAG Architecture**
+**The Problem:** Standard RAG assumes all retrieved docs are correct  
+**Aegis Solution:**
+- ✅ **Conditional routing** based on document quality
+- ✅ **Query transformation** optimizes web search
+- ✅ **Multi-source synthesis** combines local + web results
+- ✅ **Fallback mechanism** ensures current information
+
+**Why it matters:** Adapts to documentation quality in real-time
+
+#### 🧠 **3. Intentionally Stale Training Data**
+**The Problem:** Testing deprecation detection requires old docs  
+**Aegis Solution:**
+- ✅ **Curated stale documentation** VectorDB created intentionally with 2024 documentation to create a realistic "trap" of deprecated code
+- ✅ **Controlled experiment** tests detection accuracy
+- ✅ **Real-world scenarios** (V1→V2 migrations, breaking changes)
+- ✅ **Benchmarkable** against actual deprecations
+
+**Why it matters:** Provably demonstrates deprecation detection capability
+
+</td>
+<td width="50%">
+
+#### 🤖 **4. Multi-Agent Specialization**
+**The Problem:** Monolithic AI models lack task-specific optimization  
+**Aegis Solution:**
+- ✅ **Retrieval Agent** (ChromaDB) - Semantic search specialist
+- ✅ **Grading Agent** (Gemini Flash) - Fast binary classification
+- ✅ **Transformation Agent** - Query optimization expert
+- ✅ **Search Agent** (Tavily) - Real-time web search
+- ✅ **Generation Agent** (Gemini Pro) - Context synthesis
+
+**Why it matters:** Each agent is optimized for its specific task
+
+#### 🎯 **5. Framework-Specific Deprecation Knowledge**
+**The Problem:** Generic AI doesn't understand framework-specific migrations  
+**Aegis Solution:**
+- ✅ **LangChain** - LCEL vs legacy chains, callback changes
+- ✅ **Pydantic** - V1→V2 validator syntax, config changes
+- ✅ **LangGraph** - StateGraph API evolution
+- ✅ **FastAPI** - Async pattern updates, dependency injection
+
+**Why it matters:** Understands context behind breaking changes
+
+#### ⚡ **6. Real-Time Streaming with Agent Transparency**
+**The Problem:** Black box AI doesn't show reasoning process  
+**Aegis Solution:**
+- ✅ **WebSocket streaming** - Token-by-token response
+- ✅ **Agent status updates** - Shows which agent is active
+- ✅ **Web search results** - Displays source articles
+- ✅ **Process visibility** - Users see CRAG workflow in action
+
+**Why it matters:** Builds trust through transparency
+
+</td>
+</tr>
+</table>
+
+### 🆚 **Aegis AI vs Other Solutions**
+
+| Feature | Generic AI (ChatGPT/Claude) | Standard RAG | **Aegis AI** |
+|---------|---------------------------|-------------|--------------|
+| **Detects stale docs** | ❌ No awareness | ❌ Assumes all docs valid | ✅ **Binary grading agent** |
+| **Web search fallback** | ❌ Only uses training data | ❌ No fallback | ✅ **Automatic trigger** |
+| **Framework-specific** | ❌ Generic knowledge | ⚠️ Depends on docs | ✅ **Curated stale docs** |
+| **Multi-agent** | ❌ Monolithic model | ❌ Single retrieval | ✅ **5 specialized agents** |
+| **Self-correcting** | ❌ No validation | ❌ No correction | ✅ **CRAG workflow** |
+| **Process transparency** | ❌ Black box | ⚠️ Partial | ✅ **Full agent visibility** |
+| **Benchmarkable** | ❌ Hard to test | ⚠️ Depends on data | ✅ **Controlled experiments** |
 
 ---
 
@@ -102,19 +225,30 @@ graph TB
     style J fill:#ec4899,stroke:#db2777,color:#fff
 ```
 
-### 🔄 CRAG Workflow
+### 🔄 Multi-Agent CRAG Workflow
 
 <div align="center">
 
-| Phase | Technology | Purpose |
-|-------|-----------|---------|
-| ![Retrieve](https://img.shields.io/badge/1-Retrieve-3b82f6?style=for-the-badge) | **ChromaDB** | Vector similarity search on 2024 docs |
-| ![Grade](https://img.shields.io/badge/2-Grade-f59e0b?style=for-the-badge) | **Gemini 2.5 Flash** | Assess document relevance (binary score) |
-| ![Transform](https://img.shields.io/badge/3-Transform-8b5cf6?style=for-the-badge) | **Query Optimization** | Rephrase query for better web results |
-| ![Search](https://img.shields.io/badge/4-Search-10b981?style=for-the-badge) | **Tavily Search API** | Fetch current web information |
-| ![Generate](https://img.shields.io/badge/5-Generate-ec4899?style=for-the-badge) | **Gemini 2.5 Pro** | Synthesize comprehensive answer |
+| Agent | Technology | Purpose | Target Documentation |
+|-------|-----------|---------|---------------------|
+| ![Retrieve](https://img.shields.io/badge/Agent_1-Retrieval-3b82f6?style=for-the-badge) | **ChromaDB** | Vector similarity search | LangChain, Pydantic 1.10, LangGraph, FastAPI |
+| ![Grade](https://img.shields.io/badge/Agent_2-Grading-f59e0b?style=for-the-badge) | **Gemini 2.5 Flash** | Detect stale documentation | Binary relevance scoring |
+| ![Transform](https://img.shields.io/badge/Agent_3-Transformation-8b5cf6?style=for-the-badge) | **Query Rewriter** | Optimize for web search | Semantic query improvement |
+| ![Search](https://img.shields.io/badge/Agent_4-Search-10b981?style=for-the-badge) | **Tavily API** | Find current documentation | Latest API patterns |
+| ![Generate](https://img.shields.io/badge/Agent_5-Generation-ec4899?style=for-the-badge) | **Gemini 2.5 Pro** | Synthesize final answer | Combined context from all agents |
 
 </div>
+
+### 📚 **Ingested Stale Documentation Database**
+
+Aegis AI's ChromaDB contains carefully curated **stale documentation** to test deprecation detection:
+
+- **🦜 LangChain** - Earlier versions with deprecated patterns
+- **🔷 Pydantic 1.10** - Pre-V2 migration documentation  
+- **📊 LangGraph** - Evolving multi-agent patterns
+- **⚡ FastAPI** - Outdated async patterns and dependencies
+
+When these documents are retrieved, the **Grading Agent** detects their staleness and triggers the **Search Agent** to find current information.
 
 ### 🛠️ Tech Stack
 
@@ -196,12 +330,12 @@ graph TB
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│  User: "How to use FastAPI with async databases?"  │
+│  User: "How to use FastAPI with async databases?"   │
 └─────────────────────┬───────────────────────────────┘
                       │
-         ┌────────────▼────────────┐
+         ┌────────────▼──────────────┐
          │  Vector Search (ChromaDB) │
-         └────────────┬────────────┘
+         └────────────┬──────────────┘
                       │
          ┌────────────▼────────────┐
          │  Relevance Grading      │
@@ -213,13 +347,13 @@ graph TB
          [Relevant]     [Not Relevant]
               │               │
               │        ┌──────▼──────┐
-              │        │ Web Search   │
-              │        │ (Tavily)     │
+              │        │ Web Search  │
+              │        │ (Tavily)    │
               │        └──────┬──────┘
               │               │
          ┌────▼───────────────▼────┐
-         │  Generate Response       │
-         │  (Gemini 2.5-pro)        │
+         │  Generate Response      │
+         │  (Gemini 2.5-pro)       │
          └────────────┬────────────┘
                       │
          ┌────────────▼────────────┐
@@ -245,7 +379,7 @@ graph TB
 ┌──────────────────────────────────────────┐
 │ 📰 Article Title                         │
 │ 🔗 https://source-url.com                │
-│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
 │ Snippet preview (200 chars)...           │
 └──────────────────────────────────────────┘
 ```
