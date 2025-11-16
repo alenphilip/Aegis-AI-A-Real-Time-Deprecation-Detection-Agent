@@ -13,7 +13,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square&logo=opensourceinitiative&logoColor=white)](LICENSE)
 [![WebSocket](https://img.shields.io/badge/WebSocket-Real--time-FF6B6B?style=flat-square&logo=socket.io&logoColor=white)]()
-[![Gemini](https://img.shields.io/badge/Google_Gemini-1.5_Pro-4285F4?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev)
+[![Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Pro-4285F4?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev)
 
 **An AI agent that detects and prevents deprecated code before it ships to production**
 
@@ -110,10 +110,10 @@ graph TB
 | Phase | Technology | Purpose |
 |-------|-----------|---------|
 | ![Retrieve](https://img.shields.io/badge/1-Retrieve-3b82f6?style=for-the-badge) | **ChromaDB** | Vector similarity search on 2024 docs |
-| ![Grade](https://img.shields.io/badge/2-Grade-f59e0b?style=for-the-badge) | **Gemini 1.5 Flash** | Assess document relevance (binary score) |
+| ![Grade](https://img.shields.io/badge/2-Grade-f59e0b?style=for-the-badge) | **Gemini 2.5 Flash** | Assess document relevance (binary score) |
 | ![Transform](https://img.shields.io/badge/3-Transform-8b5cf6?style=for-the-badge) | **Query Optimization** | Rephrase query for better web results |
 | ![Search](https://img.shields.io/badge/4-Search-10b981?style=for-the-badge) | **Tavily API** | Fetch current web information |
-| ![Generate](https://img.shields.io/badge/5-Generate-ec4899?style=for-the-badge) | **Gemini 1.5 Pro** | Synthesize comprehensive answer |
+| ![Generate](https://img.shields.io/badge/5-Generate-ec4899?style=for-the-badge) | **Gemini 2.5 Pro** | Synthesize comprehensive answer |
 
 </div>
 
@@ -127,7 +127,7 @@ graph TB
 ![WebSocket](https://img.shields.io/badge/WebSocket-010101?style=for-the-badge&logo=socket.io&logoColor=white)
 
 **Key Libraries:**
-- `langchain-google-genai` - Gemini integration (1.5-flash, 1.5-pro)
+- `langchain-google-genai` - Gemini integration (2.5-flash, 2.5-pro)
 - `langchain-tavily` - TavilySearchResults for web search
 - `langchain-chroma` - Vector database operations
 - `langgraph` - StateGraph orchestration
@@ -148,7 +148,7 @@ graph TB
 - localStorage persistence for chat history
 
 #### **AI/ML**
-![Google Gemini](https://img.shields.io/badge/Gemini_1.5-4285F4?style=for-the-badge&logo=google&logoColor=white)
+![Google Gemini](https://img.shields.io/badge/Gemini_2.5-4285F4?style=for-the-badge&logo=google&logoColor=white)
 ![Tavily](https://img.shields.io/badge/Tavily_Search-10b981?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6Ii8+PC9zdmc+)
 ![Vector DB](https://img.shields.io/badge/Vector_DB-FF6B6B?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6Ii8+PC9zdmc+)
 
@@ -202,7 +202,7 @@ graph TB
                       │
          ┌────────────▼────────────┐
          │  Relevance Grading      │
-         │  (Gemini 1.5-flash)     │
+         │  (Gemini 2.5-flash)     │
          └────────────┬────────────┘
                       │
               ┌───────┴───────┐
@@ -216,7 +216,7 @@ graph TB
               │               │
          ┌────▼───────────────▼────┐
          │  Generate Response       │
-         │  (Gemini 1.5-pro)        │
+         │  (Gemini 2.5-pro)        │
          └────────────┬────────────┘
                       │
          ┌────────────▼────────────┐
@@ -294,7 +294,7 @@ python -m venv venv
 
 # Activate virtual environment
 # Windows:
-venv\Scripts\activate
+.\venv\Scripts\activate
 # macOS/Linux:
 source venv/bin/activate
 
@@ -395,7 +395,7 @@ def retrieve(state):
 #### 2. **Grade Documents Node**
 ```python
 def grade_documents(state):
-    """Gemini 1.5-flash scores each doc (0 or 1)"""
+    """Gemini-2.5-flash scores each doc (0 or 1)"""
     filtered_docs = []
     web_search = "No"
     
@@ -456,7 +456,7 @@ def web_search_node(state):
 #### 5. **Generate Node**
 ```python
 def generate(state):
-    """Gemini 1.5-pro synthesizes final answer"""
+    """Gemini 2.5-pro synthesizes final answer"""
     question = state["question"]
     documents = state["documents"]
     
@@ -760,10 +760,10 @@ copies of the Software...
 
 ### 💬 Get in Touch
 
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your.email@example.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/yourprofile)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:alenphilip2071@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alen-philip-george-130226254)
 [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/yourhandle)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yourusername)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/alenphilip)
 
 ### 🌟 Star the Project
 
