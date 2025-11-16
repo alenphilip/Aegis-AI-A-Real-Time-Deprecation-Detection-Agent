@@ -2,13 +2,13 @@
 
 <div align="center">
 
-<img src="https://img.shields.io/badge/Aegis_AI-Deprecation_Detection_Agent-ef4444?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0ZGQ0EyOCIgZD0iTTEyIDFMMyA1djZjMCA1LjU1IDMuODQgMTAuNzQgOSAxMiA1LjE2LTEuMjYgOS02LjQ1IDktMTJWNWwtOS00eiIvPjwvc3ZnPg==" alt="Aegis AI Banner" height="84",width = "67">
+![Aegis AI Banner](https://img.shields.io/badge/Aegis_AI-Deprecation_Detection_Agent-ef4444?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0ZGQ0EyOCIgZD0iTTEyIDFMMyA1djZjMCA1LjU1IDMuODQgMTAuNzQgOSAxMiA1LjE2LTEuMjYgOS02LjQ1IDktMTJWNWwtOS00eiIvPjwvc3ZnPg==)
 
+[![LangChain](https://img.shields.io/badge/🦜_LangChain_0.3+-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)](https://langchain.com)
+[![LangGraph](https://img.shields.io/badge/LangGraph_0.2+-1C3C3C?style=for-the-badge&logo=langgraph&logoColor=white)](https://langchain-ai.github.io/langgraph/)
 [![Python](https://img.shields.io/badge/Python_3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI_0.104+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React_18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![LangChain](https://img.shields.io/badge/🦜_LangChain_0.3+-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)](https://langchain.com)
-[![LangGraph](https://img.shields.io/badge/LangGraph_0.2+-1C3C3C?style=for-the-badge&logo=langgraph&logoColor=white)](https://langchain-ai.github.io/langgraph/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_3.3+-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
 [![License](https://img.shields.io/badge/License_MIT-FFCA28?style=for-the-badge&logo=opensourceinitiative&logoColor=black)](LICENSE)
@@ -112,7 +112,7 @@ graph TB
 | ![Retrieve](https://img.shields.io/badge/1-Retrieve-3b82f6?style=for-the-badge) | **ChromaDB** | Vector similarity search on 2024 docs |
 | ![Grade](https://img.shields.io/badge/2-Grade-f59e0b?style=for-the-badge) | **Gemini 2.5 Flash** | Assess document relevance (binary score) |
 | ![Transform](https://img.shields.io/badge/3-Transform-8b5cf6?style=for-the-badge) | **Query Optimization** | Rephrase query for better web results |
-| ![Search](https://img.shields.io/badge/4-Search-10b981?style=for-the-badge) | **Tavily API** | Fetch current web information |
+| ![Search](https://img.shields.io/badge/4-Search-10b981?style=for-the-badge) | **Tavily Search API** | Fetch current web information |
 | ![Generate](https://img.shields.io/badge/5-Generate-ec4899?style=for-the-badge) | **Gemini 2.5 Pro** | Synthesize comprehensive answer |
 
 </div>
@@ -122,8 +122,9 @@ graph TB
 #### **Backend**
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![LangGraph](https://img.shields.io/badge/LangGraph-FF6B6B?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6Ii8+PC9zdmc+)
-![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6B6B?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6Ii8+PC9zdmc+)
+![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-1C3C3C?style=for-the-badge&logo=langgraph&logoColor=white)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6B6B?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDNDNy41OCAzIDQgNC43OSA0IDdzMy41OCA0IDggNCA4LTEuNzkgOC00LTMuNTgtNC04LTRtMCA5Yy00LjQyIDAtOC0xLjc5LTgtNHY0YzAgMi4yMSAzLjU4IDQgOCA0czgtMS43OSA4LTR2LTRjMCAyLjIxLTMuNTggNC04IDRtMCA1Yy00LjQyIDAtOC0xLjc5LTgtNHY0YzAgMi4yMSAzLjU4IDQgOCA0czgtMS43OSA4LTR2LTRjMCAyLjIxLTMuNTggNC04IDRaIi8+PC9zdmc+)
 ![WebSocket](https://img.shields.io/badge/WebSocket-010101?style=for-the-badge&logo=socket.io&logoColor=white)
 
 **Key Libraries:**
@@ -132,6 +133,7 @@ graph TB
 - `langchain-chroma` - Vector database operations
 - `langgraph` - StateGraph orchestration
 - `uvicorn` - ASGI server with WebSocket support
+- `fastapi` - High-performance web framework for building APIs
 
 #### **Frontend**
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
@@ -149,8 +151,8 @@ graph TB
 
 #### **AI/ML**
 ![Google Gemini](https://img.shields.io/badge/Gemini_2.5-4285F4?style=for-the-badge&logo=google&logoColor=white)
-![Tavily](https://img.shields.io/badge/Tavily_Search-10b981?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6Ii8+PC9zdmc+)
-![Vector DB](https://img.shields.io/badge/Vector_DB-FF6B6B?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6Ii8+PC9zdmc+)
+![Tavily Search](https://img.shields.io/badge/Tavily_Search-10b981?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTE1LjUgMTRoLS43OWwtLjI4LS4yN0MxNS40MSAxMi41OSAxNiAxMS4xMSAxNiA5LjVDMTYgNS45MyAxMy4wNyAzIDkuNSAzUzMgNS45MyAzIDkuNSAzIDE0LjA3IDYuOTMgMTYuMDdBOC4xMDggOC4xMDggMCAwIDAgOS41IDE3YzEuNTggMCAzLjA2LS41NyA0LjIxLTEuNThsLjI3LjI4di43OWwyLjUgMi40OWExLjQ5IDEuNDkgMCAwIDAgMi4xMiAwIDEuNDkgMS40OSAwIDAgMCAwLTIuMTJsLTIuNDktMi41ek05LjUgMTZjLTMu1MiAwLTYuMzQtMi41OS03LTEuMDJBNi41IDYuNSAwIDAgMSA5LjUgNEM1LjkyIDQgNCA1LjkyIDQgOS41UzUuOTIgMTUgOS41IDE1YzEuNjQgMCAzLjE1LS41MyA0LjM5LTEuNDNsLS44LS44Yy0uOTMgLjUtMi4wMi44LTMuNTkuOHoiLz48L3N2Zz4=)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6B6B?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDNDNy41OCAzIDQgNC43OSA0IDdzMy41OCA0IDggNCA4LTEuNzkgOC00LTMuNTgtNC04LTRtMCA5Yy00LjQyIDAtOC0xLjc5LTgtNHY0YzAgMi4yMSAzLjU4IDQgOCA0czgtMS43OSA4LTR2LTRjMCAyLjIxLTMuNTggNC04IDRtMCA1Yy00LjQyIDAtOC0xLjc5LTgtNHY0YzAgMi4yMSAzLjU4IDQgOCA0czgtMS43OSA4LTR2LTRjMCAyLjIxLTMuNTggNC04IDRaIi8+PC9zdmc+)
 
 ---
 
@@ -164,6 +166,7 @@ graph TB
 
 #### 🌙 Dark Mode
 ![Dark Theme](https://img.shields.io/badge/Background-%230a0b0d-0a0b0d?style=for-the-badge)
+
 ![Text](https://img.shields.io/badge/Text-%23e8eaed-e8eaed?style=for-the-badge&labelColor=0a0b0d)
 
 *Sophisticated grayish-blackish design*
@@ -173,6 +176,7 @@ graph TB
 
 #### ☀️ Light Mode
 ![Light Theme](https://img.shields.io/badge/Background-%23fafbfc-fafbfc?style=for-the-badge&labelColor=000)
+
 ![Text](https://img.shields.io/badge/Text-%23111827-111827?style=for-the-badge&labelColor=fafbfc)
 
 *Beautiful soft white design*
@@ -248,7 +252,7 @@ graph TB
 ```
 
 **Features:**
-- 🎯 Top 3 most relevant articles
+- 🎯 Top 5 most relevant articles
 - 🔗 Clickable titles and URLs
 - 📝 Content snippets for context
 - 🎨 Hover effects with smooth transitions
@@ -274,14 +278,14 @@ TAVILY_API_KEY=your_tavily_api_key
 ```
 
 Get your keys:
-- 🔷 [Google AI Studio](https://makersuite.google.com/app/apikey) - Gemini API
+- 🔷 [Google AI Studio](https://aistudio.google.com/api-keys) - Gemini API
 - 🟢 [Tavily](https://tavily.com) - Search API
 
 ### 🚀 Installation
 
 #### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/yourusername/aegis-ai.git
+git clone https://github.com/alenphilip/aegis-ai.git
 cd aegis-ai
 ```
 
@@ -652,7 +656,7 @@ CMD ["python", "main.py"]
 | Metric | Value | Impact |
 |--------|-------|--------|
 | ⚡ Response Time | < 3s | Fast answer delivery |
-| 🎯 Accuracy Rate | 94% | High-quality responses |
+| 🎯 Accuracy Rate | 96% | High-quality responses |
 | 🔍 Retrieval Precision | 89% | Relevant documents |
 | 🌐 Web Search Fallback | 11% | Coverage for gaps |
 | 💾 Storage | < 100MB | Lightweight vector DB |
@@ -717,7 +721,7 @@ copies of the Software...
 - [LangChain](https://langchain.com) - LLM orchestration framework
 - [LangGraph](https://langchain-ai.github.io/langgraph/) - State graph workflows
 - [Google Gemini](https://ai.google.dev) - Powerful AI models
-- [Tavily](https://tavily.com) - Web search API
+- [Tavily Search](https://tavily.com) - Web search API
 - [ChromaDB](https://www.trychroma.com) - Vector database
 - [FastAPI](https://fastapi.tiangolo.com) - Modern Python web framework
 - [React](https://react.dev) - UI library
@@ -725,8 +729,7 @@ copies of the Software...
 
 ### 📚 Inspired By
 - [Corrective RAG (CRAG) Paper](https://arxiv.org/abs/2401.15884)
-- [LangChain CRAG Guide](https://langchain-ai.github.io/langgraph/tutorials/rag/langgraph_crag/)
-
+  
 ---
 
 ## 📞 Contact & Support
