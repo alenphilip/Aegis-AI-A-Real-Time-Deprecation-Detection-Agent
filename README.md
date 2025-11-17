@@ -17,7 +17,7 @@
 ### 🎯 **Targeting Stale Documentation**
 LangChain • Pydantic 1.10 • LangGraph • FastAPI
 
-### [🚀 Demo](https://www.linkedin.com/posts/alen-philip-george-130226254_ai-agenticai-langchain-activity-7396103712240418818-vPNB?utm_source=social_share_send&utm_medium=android_app&rcm=ACoAAD6uYzQBloyk48CkNFxt2yRJexL3ZnNDAJA&utm_campaign=copy_link) • [💡 Features](#-features) • [🏗️ Architecture](#️-architecture) • [⚡ Quick Start](#-quick-start) • [📚 Documentation](#-documentation)
+### [🚀 Demo](https://www.linkedin.com/posts/alenphilipgeorge_ai-agenticai-langchain-activity-7396103712240418818-NH20?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAD6uYzQBloyk48CkNFxt2yRJexL3ZnNDAJA) • [💡 Features](#-features) • [🏗️ Architecture](#️-architecture) • [⚡ Quick Start](#-quick-start) • [📚 Documentation](#-documentation)
 
 
 [![License](https://img.shields.io/badge/License_MIT-FFCA28?style=plastic&logo=opensourceinitiative&logoColor=black)](LICENSE)
@@ -889,7 +889,7 @@ copies of the Software...
 ### 💬 Get in Touch
 
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:alenphilip2071@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alen-philip-george-130226254)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alenphilipgeorge)
 [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/yourhandle)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/alenphilip)
 
