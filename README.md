@@ -11,7 +11,7 @@
 [![React](https://img.shields.io/badge/React_18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_3.3+-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
-**A multi-agent AI system that detects and prevents deprecated code before it ships to production**  
+**A self-correcting multi-agent AI system that detects and prevents deprecated code before it ships to production**  
 *Solving the $2.85B problem of outdated documentation with 5 specialized AI agents powered by CRAG technology*
 
 ### 🎯 **Targeting Stale Documentation**
@@ -32,10 +32,17 @@ LangChain • Pydantic 1.10 • LangGraph • FastAPI
 <div align="center">
 
 ```
-🔴 Outdated Documentation → ⚠️ Deprecated Code → 💸 Production Failures → 📉 $2.85B Annual Loss
+🔴 Youtube/ Aricle/ Blog Tutorials(2024) → ⚠️ Deprecated Code → 💸 Production Failures → 📉 $2.85B Annual Loss
 ```
 
 </div>
+
+**The Real Problem:** We are forced to rely on resources that decay almost instantly: Stack Overflow answers, YouTube tutorials, and blog posts, but the AI ecosystem moves at **light speed**. 
+
+- That **"2024 LangChain tutorial"** you followed? Already poisoned with deprecated code.
+- The **Pydantic v1 patterns** everyone learned? Dead on arrival in v2.
+- That **RAG implementation** from 6 months ago? Uses functions that don't exist anymore.
+- The **FastAPI async patterns and dependencies** you relied on? They require constant updates to keep up with the latest performance optimizations and dependency changes.
 
 **The documentation crisis is real:**
 - 🕐 Developers spend **35% of their time** searching for accurate information
@@ -59,7 +66,17 @@ Traditional solutions fail because:
 
 ## 💡 The Solution: Aegis AI
 
-**Aegis AI** is a **multi-agent deprecation detection system** powered by **Corrective Retrieval-Augmented Generation (CRAG)** that orchestrates **5 specialized AI agents** to identify outdated documentation and prevent developers from using deprecated APIs, patterns, and methods.
+**Aegis AI** is a **multi-agent deprecation detection system** powered by **Corrective Retrieval-Augmented Generation (CRAG)** that orchestrates **5 specialized AI agents** to identify outdated documentation and prevent developers from using deprecated APIs, patterns and methods, and fixes itself by searching for the current 2025 solution.  
+
+When a developer asks a question, Aegis AI:
+
+**1. Retrieves the Poison:** The Retrieval Agent fetches a document from the intentionally "stale" knowledge base (e.g., Pydantic 1.10 patterns).
+
+**2. Detects the Lie:** The Grading Agent assesses the content for relevance and deprecations signals, instantly flagging the document as outdated.
+
+**3. Self-Corrects and Searches:** If flagged as stale, the system triggers the *Transformation Agent* to optimize the query, and the Search Agent to rip the latest 2025 solution from the live internet.
+
+**4. Synthesizes the Fix:** The Generation Agent synthesizes the combined context (stale + modern) to provide a final, accurate answer, identifying the outdated documentation and preventing the developer from using deprecated APIs, patterns, and methods.
 
 ### 🤖 Multi-Agent Architecture
 
