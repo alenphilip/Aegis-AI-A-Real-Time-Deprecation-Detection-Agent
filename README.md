@@ -17,7 +17,7 @@
 ### 🎯 **Targeting Stale Documentation**
 LangChain • Pydantic 1.10 • LangGraph • FastAPI
 
-### [🚀 Demo](#-demo) • [💡 Features](#-features) • [🏗️ Architecture](#️-architecture) • [⚡ Quick Start](#-quick-start) • [📚 Documentation](#-documentation)
+### [🚀 Demo](https://www.linkedin.com/posts/alen-philip-george-130226254_ai-agenticai-langchain-activity-7396103712240418818-vPNB?utm_source=social_share_send&utm_medium=android_app&rcm=ACoAAD6uYzQBloyk48CkNFxt2yRJexL3ZnNDAJA&utm_campaign=copy_link) • [💡 Features](#-features) • [🏗️ Architecture](#️-architecture) • [⚡ Quick Start](#-quick-start) • [📚 Documentation](#-documentation)
 
 
 [![License](https://img.shields.io/badge/License_MIT-FFCA28?style=plastic&logo=opensourceinitiative&logoColor=black)](LICENSE)
